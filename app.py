@@ -1,24 +1,20 @@
 import requests
 import streamlit as st
 
-# Set page title and layout
-st.set_page_config(page_title="My Webpage", layout="wide")
+# Set the domain and cookie values
+domain = "https://wishkro.fun/S"
+cookie_name = "hie"
+cookie_value = "1"
+cookie_expiration = 5 * 60  # 5 minutes in seconds
 
-# Function to set a cookie
-def set_cookie(name, value, domain, duration):
-    st.set_page_config(page_title="My Webpage", layout="wide")
+# Create the Set-Cookie header value
+set_cookie_header = f"{cookie_name}={cookie_value}; Max-Age={cookie_expiration}; Domain={domain}"
 
-    # Add a button to set the 'hie' cookie
-    if st.button("Set 'hie' Cookie for 5 Minutes"):
-        expiration_time = int(time.time()) + 300  # 5 minutes
-        st.set_cookie(name, value, domain, expiration_time)
-        st.write(f"Cookie '{name}' set for {duration} minutes on domain {domain}")
+# Set the response header to include the Set-Cookie header
+st.set_page_config(page_title="My Webpage", layout="wide", initial_sidebar_state="collapsed", key=set_cookie_header)
 
-# Add a button to send 'hi' with the 'trp' cookie
+# Add a button to send 'hi' with Cookie
 if st.button("Send 'hi' with Cookie"):
     post_data = {'message': 'hi'}
     response = requests.post('https://wishkro.fun/S/c.php', data=post_data, cookies={'trp': '10'})
     st.write(f"Response from the server: {response.text}")
-
-# Add a button to set the 'hie' cookie
-set_cookie('hie', '1', 'https://wishkro.fun/S', 5)
